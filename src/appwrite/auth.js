@@ -1,5 +1,5 @@
 import config from "../config/config";
-import { Client, Account, Databases, Storage, ID } from "appwrite";
+import { Client, Account, ID } from "appwrite";
 export class AuthService {
   client = new Client();
   account;
@@ -21,8 +21,7 @@ export class AuthService {
       );
       if (response) {
         return this.login(email, password);
-      }
-      else {
+      } else {
         throw new Error("Account creation failed");
       }
     } catch (error) {
@@ -32,7 +31,10 @@ export class AuthService {
   }
   async login(email, password) {
     try {
-      const response = await this.account.createEmailPasswordSession(email, password);
+      const response = await this.account.createEmailPasswordSession(
+        email,
+        password
+      );
       if (response) {
         return response;
       } else {
@@ -53,19 +55,6 @@ export class AuthService {
       }
     } catch (error) {
       console.error("Error logging out:", error);
-      throw error;
-    }
-  }
-  async getCurrentUser() {
-    try {
-      const response = await this.account.get();
-      if (response) {
-        return response;
-      } else {
-        throw new Error("Failed to get current user");
-      }
-    } catch (error) {
-      console.error("Error getting current user:", error);
       throw error;
     }
   }
